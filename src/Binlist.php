@@ -54,7 +54,7 @@ class Binlist
      * @param mixed $scheme
      * @return Binlist
      */
-    private function setScheme($scheme): Binlist
+    private function setScheme($scheme)
     {
         $this->scheme = $scheme;
         return $this;
@@ -72,7 +72,7 @@ class Binlist
      * @param mixed $type
      * @return Binlist
      */
-    private function setType($type): Binlist
+    private function setType($type)
     {
         $this->type = $type;
         return $this;
@@ -90,7 +90,7 @@ class Binlist
      * @param mixed $brand
      * @return Binlist
      */
-    private function setBrand($brand): Binlist
+    private function setBrand($brand)
     {
         $this->brand = $brand;
         return $this;
@@ -108,7 +108,7 @@ class Binlist
      * @param mixed $prepaid
      * @return Binlist
      */
-    private function setPrepaid($prepaid): Binlist
+    private function setPrepaid($prepaid)
     {
         $this->prepaid = $prepaid;
         return $this;
@@ -126,7 +126,7 @@ class Binlist
      * @param mixed $country
      * @return Binlist
      */
-    private function setCountry($country): Binlist
+    private function setCountry($country)
     {
         $this->country = $country;
         return $this;
@@ -144,7 +144,7 @@ class Binlist
      * @param mixed $currency
      * @return Binlist
      */
-    private function setCurrency($currency): Binlist
+    private function setCurrency($currency)
     {
         $this->currency = $currency;
         return $this;
@@ -162,7 +162,7 @@ class Binlist
      * @param mixed $bank
      * @return Binlist
      */
-    private function setBank($bank): Binlist
+    private function setBank($bank)
     {
         $this->bank = $bank;
         return $this;
@@ -180,7 +180,7 @@ class Binlist
      * @param mixed $digitLength
      * @return Binlist
      */
-    private function setDigitLength($digitLength): Binlist
+    private function setDigitLength($digitLength)
     {
         $this->digitLength = $digitLength;
         return $this;
@@ -198,7 +198,7 @@ class Binlist
      * @param mixed $luhnValidation
      * @return Binlist
      */
-    private function setLuhnValidation($luhnValidation): Binlist
+    private function setLuhnValidation($luhnValidation)
     {
         $this->luhnValidation = $luhnValidation;
         return $this;
