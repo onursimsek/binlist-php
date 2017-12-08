@@ -3,7 +3,7 @@
 **Installation**
 
 ```bash
-composer require stripe/stripe-php
+composer require onursimsek/binlist-php
 ```
 
 **Documentation**
