@@ -224,7 +224,7 @@ class Binlist
         $this->client = new Client([
             'defaults' => [
                 'verify' => false,
-                CURLOPT_SSL_VERIFYHOST => false,
+                CURL_SSLVERSION_DEFAULT => false,
             ],
             'headers' => [
                 'Accept-Version' => 3,
