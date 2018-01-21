@@ -3,6 +3,7 @@
 namespace Binlist;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 
 class Binlist
 {
@@ -10,7 +11,9 @@ class Binlist
 
     private $bin;
 
-    private $response;
+    private $rawResponse;
+
+    private $parsedResponse;
 
     /**
      * @var string
@@ -39,6 +42,11 @@ class Binlist
     private $luhnValidation;
 
     private $client;
+
+    /**
+     * @var boolean
+     */
+    private $responseStatus;
 
     public function __construct($bin)
     {
@@ -227,36 +235,56 @@ class Binlist
     /**
      * @return object
      */
-    public function getResponse()
+    public function getRawResponse()
     {
-        return $this->response;
+        return $this->rawResponse;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSuccess()
+    {
+        return $this->responseStatus;
     }
 
     private function getData()
     {
-        $this->response = $this->sendRequest();
+        $this->parsedResponse = $this->sendRequest();
 
-        $this->setScheme($this->response->scheme)
-            ->setType($this->response->type)
-            ->setBrand(!empty($this->response->brand) ? $this->response->brand : null)
-            ->setPrepaid(!empty($this->response->prepaid) ? $this->response->prepaid : null)
-            ->setCountry($this->response->country)
-            ->setCurrencyCode($this->response->country->numeric)
-            ->setCurrency(!empty($this->response->country->currency) ? $this->response->country->currency : null)
-            ->setBank($this->response->bank)
-            ->setDigitLength(!empty($this->response->number->length) ? $this->response->number->length : null)
-            ->setLuhnValidation(!empty($this->response->number->luhn) ? $this->response->number->luhn : null);
+        if (!$this->isSuccess()) {
+            return false;
+        }
+
+        $this->setScheme($this->parsedResponse->scheme)
+            ->setType($this->parsedResponse->type)
+            ->setBrand(!empty($this->parsedResponse->brand) ? $this->parsedResponse->brand : null)
+            ->setPrepaid(!empty($this->parsedResponse->prepaid) ? $this->parsedResponse->prepaid : null)
+            ->setCountry($this->parsedResponse->country)
+            ->setCurrencyCode($this->parsedResponse->country->numeric)
+            ->setCurrency(!empty($this->parsedResponse->country->currency) ? $this->parsedResponse->country->currency : null)
+            ->setBank($this->parsedResponse->bank)
+            ->setDigitLength(!empty($this->parsedResponse->number->length) ? $this->parsedResponse->number->length : null)
+            ->setLuhnValidation(!empty($this->parsedResponse->number->luhn) ? $this->parsedResponse->number->luhn : null);
     }
 
     private function sendRequest()
     {
-        $this->client = new Client([
-            'headers' => [
-                'Accept-Version' => 3,
-            ]
-        ]);
+        try {
+            $this->client = new Client([
+                'headers' => [
+                    'Accept-Version' => 3,
+                ]
+            ]);
 
-        return json_decode($this->client->get($this->endpoint . '/' . $this->bin)->getBody()->getContents());
+            $this->rawResponse = $this->client->get($this->endpoint . '/' . $this->bin)->getBody()->getContents();
+            $this->responseStatus = true;
+
+            return json_decode($this->rawResponse);
+
+        } catch (ClientException $e) {
+            $this->responseStatus = false;
+        }
     }
 
     public function __toString()
