@@ -2,7 +2,9 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$binlist = new \Binlist\Binlist('45717360');
+$binlist = new \Binlist\Binlist('65465421');
+
+print_r($binlist->getResponse());
 
 echo $binlist . PHP_EOL;
 

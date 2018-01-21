@@ -30,6 +30,8 @@ class Binlist
 
     private $currency;
 
+    private $currencyCode;
+
     private $bank;
 
     private $digitLength;
@@ -153,6 +155,24 @@ class Binlist
     /**
      * @return mixed
      */
+    public function getCurrencyCode()
+    {
+        return $this->currencyCode;
+    }
+
+    /**
+     * @param mixed $currencyCode
+     * @return Binlist
+     */
+    public function setCurrencyCode($currencyCode)
+    {
+        $this->currencyCode = $currencyCode;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getBank()
     {
         return $this->bank;
@@ -218,22 +238,19 @@ class Binlist
 
         $this->setScheme($this->response->scheme)
             ->setType($this->response->type)
-            ->setBrand($this->response->brand)
-            ->setPrepaid($this->response->prepaid)
+            ->setBrand(!empty($this->response->brand) ? $this->response->brand : null)
+            ->setPrepaid(!empty($this->response->prepaid) ? $this->response->prepaid : null)
             ->setCountry($this->response->country)
-            ->setCurrency($this->response->country->currency)
+            ->setCurrencyCode($this->response->country->numeric)
+            ->setCurrency(!empty($this->response->country->currency) ? $this->response->country->currency : null)
             ->setBank($this->response->bank)
-            ->setDigitLength($this->response->number->length)
-            ->setLuhnValidation($this->response->number->luhn);
+            ->setDigitLength(!empty($this->response->number->length) ? $this->response->number->length : null)
+            ->setLuhnValidation(!empty($this->response->number->luhn) ? $this->response->number->luhn : null);
     }
 
     private function sendRequest()
     {
         $this->client = new Client([
-            'defaults' => [
-                'verify' => false,
-                CURL_SSLVERSION_DEFAULT => false,
-            ],
             'headers' => [
                 'Accept-Version' => 3,
             ]
