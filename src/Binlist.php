@@ -204,6 +204,14 @@ class Binlist
         return $this;
     }
 
+    /**
+     * @return object
+     */
+    public function getResponse()
+    {
+        return $this->response;
+    }
+
     private function getData()
     {
         $this->response = $this->sendRequest();
