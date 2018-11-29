@@ -257,7 +257,7 @@ class Binlist
         }
 
         $this->setScheme($this->parsedResponse->scheme)
-            ->setType($this->parsedResponse->type)
+            ->setType(!empty($this->parsedResponse->type) ? $this->parsedResponse->type : null)
             ->setBrand(!empty($this->parsedResponse->brand) ? $this->parsedResponse->brand : null)
             ->setPrepaid(!empty($this->parsedResponse->prepaid) ? $this->parsedResponse->prepaid : null)
             ->setCountry($this->parsedResponse->country)
